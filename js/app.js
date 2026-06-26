@@ -95,6 +95,7 @@
     "/students": renderStudents,
     "/courses": renderCourses,
     "/enrollments": renderEnrollments,
+    "/assistant": renderAssistant,
   };
 
   function currentPath() {
@@ -690,6 +691,106 @@
         });
       }
     );
+  }
+
+  /* ------------------------------ Assistant ----------------------------- */
+  // Conversation history kept in memory for the session.
+  let chatLog = [
+    {
+      role: "bot",
+      html:
+        `<p>👋 Hi! I'm your data assistant. Ask me about students, courses, or enrollments.</p>` +
+        window.Assistant.suggestionsHtml(),
+    },
+  ];
+
+  function renderAssistant() {
+    app.innerHTML = `
+      <header class="page-head">
+        <div>
+          <h1>AI Assistant</h1>
+          <p class="muted">Ask questions in plain English — answers come from your data.</p>
+        </div>
+        <button class="btn" id="chat-clear">Clear chat</button>
+      </header>
+
+      <div class="chat">
+        <div class="chat__log" id="chat-log">
+          ${chatLog.map(chatBubble).join("")}
+        </div>
+        <form class="chat__form" id="chat-form">
+          <input
+            type="text"
+            id="chat-input"
+            class="input"
+            placeholder="e.g. Who is enrolled in CS101?"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn--primary">Ask</button>
+        </form>
+      </div>`;
+
+    const log = document.getElementById("chat-log");
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("chat-input");
+    input.focus();
+    log.scrollTop = log.scrollHeight;
+
+    function send(question) {
+      const q = question.trim();
+      if (!q) return;
+      chatLog.push({ role: "user", html: esc(q) });
+      const response = window.Assistant.answer(q);
+      chatLog.push({ role: "bot", html: response.html });
+      log.insertAdjacentHTML("beforeend", chatBubble(chatLog[chatLog.length - 2]));
+      log.insertAdjacentHTML("beforeend", chatBubble(chatLog[chatLog.length - 1]));
+      bindChips(log);
+      log.scrollTop = log.scrollHeight;
+      input.value = "";
+      input.focus();
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      send(input.value);
+    });
+
+    document.getElementById("chat-clear").addEventListener("click", () => {
+      chatLog = [
+        {
+          role: "bot",
+          html:
+            `<p>Chat cleared. Ask me anything about your data.</p>` +
+            window.Assistant.suggestionsHtml(),
+        },
+      ];
+      renderAssistant();
+    });
+
+    bindChips(log);
+  }
+
+  function chatBubble(msg) {
+    return `<div class="chat__msg chat__msg--${msg.role}">
+      ${msg.role === "bot" ? '<span class="chat__avatar">🤖</span>' : ""}
+      <div class="chat__bubble">${msg.html}</div>
+    </div>`;
+  }
+
+  function bindChips(scope) {
+    scope.querySelectorAll(".ai-chip").forEach((chip) => {
+      if (chip.dataset.bound) return;
+      chip.dataset.bound = "1";
+      chip.addEventListener("click", () => {
+        const input = document.getElementById("chat-input");
+        if (input) {
+          input.value = chip.getAttribute("data-q");
+          document
+            .getElementById("chat-form")
+            .dispatchEvent(new Event("submit", { cancelable: true }));
+        }
+      });
+    });
   }
 
   /* ------------------------------ Bootstrap ----------------------------- */

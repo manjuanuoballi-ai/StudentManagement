@@ -609,6 +609,103 @@ body {
   background: var(--danger);
 }
 
+/* -------------------------------- Chat / AI ------------------------------ */
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 180px);
+  min-height: 420px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.chat__log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.chat__msg {
+  display: flex;
+  gap: 10px;
+  max-width: 80%;
+}
+.chat__msg--user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.chat__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.chat__bubble {
+  padding: 12px 15px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  line-height: 1.5;
+}
+.chat__bubble p {
+  margin: 0 0 8px;
+}
+.chat__bubble p:last-child {
+  margin-bottom: 0;
+}
+.chat__msg--user .chat__bubble {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+.chat__form {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.ai-list {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ai-list li {
+  line-height: 1.4;
+}
+.ai-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.ai-chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border 0.15s;
+}
+.ai-chip:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
 /* ------------------------------- Animations ------------------------------ */
 @keyframes fade {
   from {
