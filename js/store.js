@@ -182,8 +182,8 @@
     ].map((c) => Courses.create(c));
 
     const sampleStudents = [
-      { firstName: "Aarav", lastName: "Sharma", email: "aarav.sharma@example.com", phone: "555-0101", gender: "Male", dob: "2003-05-14", status: "Active" },
-      { firstName: "Priya", lastName: "Patel", email: "priya.patel@example.com", phone: "555-0102", gender: "Female", dob: "2002-11-02", status: "Active" },
+      { firstName: "Manju", lastName: "N", email: "manju.n@example.com", phone: "555-0101", gender: "Male", dob: "2003-05-14", status: "Active" },
+      { firstName: "Anu", lastName: "V", email: "anu.v@example.com", phone: "555-0102", gender: "Female", dob: "2002-11-02", status: "Active" },
       { firstName: "Liam", lastName: "Johnson", email: "liam.johnson@example.com", phone: "555-0103", gender: "Male", dob: "2004-01-23", status: "Active" },
       { firstName: "Sofia", lastName: "Garcia", email: "sofia.garcia@example.com", phone: "555-0104", gender: "Female", dob: "2003-08-30", status: "Inactive" },
       { firstName: "Noah", lastName: "Williams", email: "noah.williams@example.com", phone: "555-0105", gender: "Male", dob: "2002-03-17", status: "Active" },
